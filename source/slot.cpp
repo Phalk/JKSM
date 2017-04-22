@@ -27,8 +27,10 @@ void reinitDirMenu(menu *m, dirList *dir, std::u16string path, bool newFolder)
         m->centerOpts();
 }
 
-std::u16string getFolder(const titleData dat, int mode, bool newFolder)
+std::u16string getFolder(const titleData dat, int mode, bool newFolder, bool& outFolderExists)
 {
+	outFolderExists = true;
+
     std::u16string ret;
     std::u16string path = getPath(mode) + dat.nameSafe + (char16_t)'/';
 
@@ -59,6 +61,7 @@ std::u16string getFolder(const titleData dat, int mode, bool newFolder)
 
         if( (down & KEY_A) && ((u32)folderMenu.getSelected() + 1 > dir.count()))
         {
+            outFolderExists = false;
             ret = tou16(GetString("Enter a name for the new folder.").c_str());
             break;
         }

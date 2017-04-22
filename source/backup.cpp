@@ -81,6 +81,8 @@ void copyDirToSD(FS_Archive save, const std::u16string from, const std::u16strin
 
 bool backupData(const titleData dat, FS_Archive arch, int mode, bool autoName)
 {
+	bool folderExists = true;
+
     //This is our path to SD folder. UTF16
     std::u16string pathOut;
     //holds name from user
@@ -94,10 +96,19 @@ bool backupData(const titleData dat, FS_Archive arch, int mode, bool autoName)
             slot += tou16(" - AutoBack");
     }
     else
-        slot = getFolder(dat, mode, true);
-
+        slot = getFolder(dat, mode, true, folderExists);
+	
     if(slot.empty())
         return false;
+
+    if(folderExists && !autoName)
+	{
+		std::string ask = "Are you sure you want to overwrite this " + toString(dat.nameSafe) + " data?";
+		if(!confirm(ask.c_str()))
+		{
+			return false;
+		}
+	}
 
     //get path returns path to /JKSV/[DIR]
     pathOut = getPath(mode) + dat.nameSafe + (char16_t)'/' + slot;

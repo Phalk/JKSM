@@ -15,7 +15,7 @@
 #define MODE_BOSS 3
 #define MODE_SHARED 4
 
-#define BUILD_DATE std::u32string(U"2-10-2017")
+#define BUILD_DATE std::u32string(U"4-20-2017")
 
 extern int state, prevState;
 extern u8 sysLanguage;
